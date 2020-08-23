@@ -1,6 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { MdArrowForward, MdArrowBack } from "react-icons/md";
 import "./Dropdown.css";
+
+// hook
+function useOutsideAlerter(ref, callback) {
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (ref.current && !ref.current.contains(event.target)) {
+                if (callback) {
+                    callback();
+                }
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside); // Bind the event listener
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);  // Unbind the event listener on clean up
+        };
+    }, [ref, callback]);
+}
 
 // for inner usage
 const DropdownMenuBody = ({ open, children }) => {
@@ -117,6 +135,7 @@ export const DropdownSubMenu = ({ menuKey, activeMenu, changeActiveMenu, closeMe
 export const DropdownMenu = ({ Button, children }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [activeMenu, setActiveMenu] = useState(null);
+    const wrapperRef = useRef(null);
 
     const toggleOpen = () => {
         setIsOpen(!isOpen);
@@ -132,6 +151,8 @@ export const DropdownMenu = ({ Button, children }) => {
         setActiveMenu(menuKey);
     }
 
+    useOutsideAlerter(wrapperRef, closeMenu); // close dropdown if clicked outside
+
     // inject sub menus with the active menu prop
     const childrenWithProps = React.Children.map(children, child => {
         if (React.isValidElement(child)) {
@@ -142,7 +163,7 @@ export const DropdownMenu = ({ Button, children }) => {
 
     return (
         <>
-            <div className="dropdown" style={{ display: "inline-block" }}>
+            <div className="dropdown" style={{ display: "inline-block" }} ref={wrapperRef}>
                 <Button toggleOpen={toggleOpen} />
                 <DropdownMenuBody open={isOpen}>
                     {childrenWithProps}
