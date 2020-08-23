@@ -1,6 +1,6 @@
 # react nested dropdown
 
-React component for nested dropdown menus inspired by youtube and facebook setting menus
+React component for nested dropdown menus (inspired by youtube and facebook setting menus)
 
 Preview:
 
