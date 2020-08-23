@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { MdArrowForward, MdArrowBack } from "react-icons/md";
+import "./Dropdown.css";
 
 // for inner usage
 const DropdownMenuBody = ({ open, children }) => {
@@ -16,7 +18,7 @@ const DropdownMenuBody = ({ open, children }) => {
 }
 
 // dropdown menu list item (needs to be a child of DropdownMenu)
-export const DropdownItem = ({ title, switchToMenu, changeActiveMenu, closeMenu, onClick }) => {
+export const DropdownItem = ({ title, switchToMenu, changeActiveMenu, closeMenu, leftIcon, rightIcon, onClick, className }) => {
     const handleClick = () => {
         if (onClick) {
             onClick();
@@ -30,8 +32,52 @@ export const DropdownItem = ({ title, switchToMenu, changeActiveMenu, closeMenu,
         }
     }
 
+    const containerClass = className ? `dropdown-item dropdown-item-container ${className}` : "dropdown-item dropdown-item-container";
+
+    if (switchToMenu) {
+        rightIcon = <MdArrowForward />;
+    }
+
+    if (leftIcon && rightIcon) {
+        return (
+            <a className={containerClass} href="#" onClick={handleClick}>
+                <div className={`dropdown-item-title`}>
+                    <span className="title-icon">{leftIcon}</span>
+                    <span className="title-text">{title}</span>
+                </div>
+                <span className="dropdown-item-right-icon">{rightIcon}</span>
+            </a>
+        );
+    }
+
+    if (rightIcon) {
+        return (
+            <a className={containerClass} href="#" onClick={handleClick}>
+                <div className="dropdown-item-title">
+                    <span className="title-text">{title}</span>
+                </div>
+                <span className="dropdown-item-right-icon">{rightIcon}</span>
+            </a>
+        );
+    }
+
+    if (leftIcon) {
+        return (
+            <a className={containerClass} href="#" onClick={handleClick}>
+                <div className="dropdown-item-title">
+                    <span className="title-icon">{leftIcon}</span>
+                    <span className="title-text">{title}</span>
+                </div>
+            </a>
+        );
+    }
+
     return (
-        <a className="dropdown-item" href="#" onClick={handleClick}>{title}</a>
+        <a className={containerClass} href="#" onClick={handleClick}>
+            <div className="dropdown-item-title">
+                <span className="title-text">{title}</span>
+            </div>
+        </a>
     );
 }
 
@@ -54,7 +100,7 @@ export const DropdownSubMenu = ({ menuKey, activeMenu, changeActiveMenu, closeMe
         if (activeMenu) {
             return (
                 <>
-                    <DropdownItem title="Back" onClick={() => changeActiveMenu(null)} />
+                    <DropdownItem title="Back" className="back-btn" onClick={() => changeActiveMenu(null)} leftIcon={<MdArrowBack />} />
                     <div class="dropdown-divider"></div>
                     {childrenWithProps}
                 </>

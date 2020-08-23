@@ -20,13 +20,17 @@ const App = () => {
 				<DropdownMenu Button={ButtonTest}>
 					<DropdownSubMenu>
 						<DropdownItem title="Item #1" onClick={() => { console.log("clicked item #1") }} />
-						<DropdownItem title="Item #2" />
+						<DropdownItem title="Languge" switchToMenu="language" />
 						<DropdownItem title="Themes" switchToMenu="themes" />
 					</DropdownSubMenu>
 					<DropdownSubMenu menuKey="themes" >
 						<DropdownItem title="Theme #1" onClick={() => { console.log("clicked theme #1") }} />
 						<DropdownItem title="Theme #2" />
 						<DropdownItem title="Theme #3" />
+					</DropdownSubMenu>
+					<DropdownSubMenu menuKey="language" >
+						<DropdownItem title="English" />
+						<DropdownItem title="French" />
 					</DropdownSubMenu>
 				</DropdownMenu>
 			</span>

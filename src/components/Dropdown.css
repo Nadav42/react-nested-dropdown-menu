@@ -1,0 +1,24 @@
+.dropdown-item-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dropdown-item-container .dropdown-item-title {
+    display: flex;
+}
+
+.dropdown-item-container .dropdown-item-title .title-icon {
+    width: 24px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    color: #909090;
+}
+
+.dropdown-item-container .dropdown-item-right-icon {
+    color: #000000;
+}
+
+.dropdown-item-container.back-btn .dropdown-item-title .title-icon {
+    color: #000000 !important;
+}
