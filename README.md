@@ -4,9 +4,8 @@ React component for nested dropdown menus inspired by youtube and facebook setti
 
 Preview:
 
-![Step 01](github_images/step01.png?raw=true "Step 01")
+![preview](github_images/preview.gif?raw=true)
 
-![Step 02](github_images/step02.png?raw=true "Step 02")
 
 Simple usage:
 
