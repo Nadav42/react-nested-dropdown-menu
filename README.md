@@ -1,50 +1,38 @@
-# mobx-decorators-cra3
-React project configuration with MobX decorators for create react app v3
+# react nested dropdown
 
-The problem with CRA: ``SyntaxError: Support for the experimental syntax 'decorators-legacy' isn't currently enabled``
+React component for nested dropdown menus inspired by youtube and facebook setting menus
 
-credit to original guide: https://tombuyse.be/blog/using-mobx-decorators-in-create-react-app-v3
+Preview:
 
-to remake this follow these steps:
-1. npm install --save mobx mobx-react
-2. npm install --save-dev customize-cra react-app-rewired
-3. change package.json scripts:
+![Alt text](github_images/step%201.png?raw=true "Title")
 
-```
-"start": "react-app-rewired start",
-"build": "react-app-rewired build"
-```
+![Alt text](github_images/step%202.png?raw=true "Title")
 
-4. add config-overrides.js
+Simple usage:
 
 ```
-const {addDecoratorsLegacy, useEslintRc, override} = require('customize-cra');
-
-module.exports = override(
-    addDecoratorsLegacy(),
-    useEslintRc('./.eslintrc')
-);
+<DropdownMenu Button={ButtonTest2}>
+    <DropdownItem title="Copy" />
+    <DropdownItem title="Remove" onClick={() => { console.log("clicked remove") }} />
+</DropdownMenu>
 ```
 
-5. add .eslintrc file (optional if you don't have it)
+With nested menus:
 ```
-{
-  "extends": "react-app",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "legacyDecorators": true
-    }
-  }
-}
+<DropdownMenu Button={ButtonTest}>
+    <DropdownSubMenu>
+        <DropdownItem title="Item #1" onClick={() => { console.log("clicked item #1") }} />
+        <DropdownItem title="Languge" switchToMenu="language" />
+        <DropdownItem title="Themes" switchToMenu="themes" />
+    </DropdownSubMenu>
+    <DropdownSubMenu menuKey="themes" >
+        <DropdownItem title="Theme #1" onClick={() => { console.log("clicked theme #1") }} />
+        <DropdownItem title="Theme #2" />
+        <DropdownItem title="Theme #3" />
+    </DropdownSubMenu>
+    <DropdownSubMenu menuKey="language" >
+        <DropdownItem title="English" />
+        <DropdownItem title="French" />
+    </DropdownSubMenu>
+</DropdownMenu>
 ```
-
-6. add jsconfig.json file:
-```
-{
-    "compilerOptions": {
-        "experimentalDecorators": true
-    }
-}
-```
-
-should work now!
