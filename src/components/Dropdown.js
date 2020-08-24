@@ -36,7 +36,7 @@ const DropdownMenuBody = ({ open, children }) => {
 }
 
 // dropdown menu list item (needs to be a child of DropdownMenu)
-export const DropdownItem = ({ title, switchToMenu, changeActiveMenu, closeMenu, leftIcon, rightIcon, onClick, className }) => {
+export const DropdownItem = ({ title, switchToMenu, changeActiveMenu, closeMenu, leftIcon, rightIcon, leftCircle, rightCircle, onClick, className }) => {
     const handleClick = () => {
         if (onClick) {
             onClick();
@@ -50,20 +50,23 @@ export const DropdownItem = ({ title, switchToMenu, changeActiveMenu, closeMenu,
         }
     }
 
-    const containerClass = className ? `dropdown-item dropdown-item-container ${className}` : "dropdown-item dropdown-item-container";
+    let containerClass = className ? `dropdown-item dropdown-item-container ${className}` : "dropdown-item dropdown-item-container";
+    const rightIconClass = rightCircle ? "dropdown-item-right-icon circle" : "dropdown-item-right-icon";
+    const leftIconClass = leftCircle ? "title-icon circle" : "title-icon";
 
     if (switchToMenu) {
         rightIcon = <MdArrowForward />;
+        containerClass = containerClass + " dropdown-item-submenu";
     }
 
     if (leftIcon && rightIcon) {
         return (
             <a className={containerClass} href="#" onClick={handleClick}>
                 <div className={`dropdown-item-title`}>
-                    <span className="title-icon">{leftIcon}</span>
+                    <span className={leftIconClass}>{leftIcon}</span>
                     <span className="title-text">{title}</span>
                 </div>
-                <span className="dropdown-item-right-icon">{rightIcon}</span>
+                <span className={rightIconClass}>{rightIcon}</span>
             </a>
         );
     }
@@ -74,7 +77,7 @@ export const DropdownItem = ({ title, switchToMenu, changeActiveMenu, closeMenu,
                 <div className="dropdown-item-title">
                     <span className="title-text">{title}</span>
                 </div>
-                <span className="dropdown-item-right-icon">{rightIcon}</span>
+                <span className={rightIconClass}>{rightIcon}</span>
             </a>
         );
     }
@@ -83,7 +86,7 @@ export const DropdownItem = ({ title, switchToMenu, changeActiveMenu, closeMenu,
         return (
             <a className={containerClass} href="#" onClick={handleClick}>
                 <div className="dropdown-item-title">
-                    <span className="title-icon">{leftIcon}</span>
+                    <span className={leftIconClass}>{leftIcon}</span>
                     <span className="title-text">{title}</span>
                 </div>
             </a>

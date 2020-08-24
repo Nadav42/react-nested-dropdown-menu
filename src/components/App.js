@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { DropdownMenu, DropdownSubMenu, DropdownItem } from './Dropdown';
+import { MdDelete, MdTranslate } from "react-icons/md";
 
 const ButtonTest = ({ toggleOpen }) => {
 	return (
@@ -19,14 +20,18 @@ const App = () => {
 			<span>
 				<DropdownMenu Button={ButtonTest}>
 					<DropdownSubMenu>
-						<DropdownItem title="Item #1" onClick={() => { console.log("clicked item #1") }} />
-						<DropdownItem title="Languge" switchToMenu="language" />
-						<DropdownItem title="Themes" switchToMenu="themes" />
+						<DropdownItem title="Device" onClick={() => { console.log("clicked item #1") }} switchToMenu="devices" />
+						<DropdownItem title="Theme" switchToMenu="themes" />
+						<DropdownItem title="Set alt text" />
+						<DropdownItem title="Remove" rightIcon={<MdDelete />} rightCircle />
 					</DropdownSubMenu>
 					<DropdownSubMenu menuKey="themes" >
-						<DropdownItem title="Theme #1" onClick={() => { console.log("clicked theme #1") }} />
-						<DropdownItem title="Theme #2" />
-						<DropdownItem title="Theme #3" />
+						<DropdownItem title="Game" />
+						<DropdownItem title="Paylines" />
+						<DropdownItem title="Big Win" />
+						<DropdownItem title="Free Spins" />
+						<DropdownItem title="Paytable" />
+						<DropdownItem title="Bonus" />
 					</DropdownSubMenu>
 					<DropdownSubMenu menuKey="language" >
 						<DropdownItem title="English" />
@@ -36,8 +41,8 @@ const App = () => {
 			</span>
 			<span>
 				<DropdownMenu Button={ButtonTest2}>
-					<DropdownItem title="Copy" />
-					<DropdownItem title="Remove" onClick={() => { console.log("clicked remove") }} />
+					<DropdownItem title="Translations" rightIcon={<MdTranslate />} />
+					<DropdownItem title="Remove" rightIcon={<MdDelete />} />
 				</DropdownMenu>
 			</span>
 		</div >
