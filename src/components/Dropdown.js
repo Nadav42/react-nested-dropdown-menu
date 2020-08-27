@@ -36,11 +36,11 @@ function useScrollAlerter(parent, bindCondition, callback) {
 
         if (bindCondition) {
             console.log("bound scroll!")
-            document.addEventListener("scroll", handleParentScroll); // Bind the event listener
+            parent.addEventListener("scroll", handleParentScroll); // Bind the event listener
         }
 
         return () => {
-            document.removeEventListener("scroll", handleParentScroll);  // Unbind the event listener on clean up
+            parent.removeEventListener("scroll", handleParentScroll);  // Unbind the event listener on clean up
         };
     }, [parent, bindCondition, callback]);
 }
