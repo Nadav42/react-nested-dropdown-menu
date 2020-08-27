@@ -52,6 +52,7 @@ const DropdownMenuBody = ({ open, xClickPos, yClickPos, activeMenu, children }) 
     const menuRef = useRef(null);
     const [xPos, setXPos] = useState(xClickPos);
     const [yPos, setYPos] = useState(yClickPos);
+    const [shouldHide, setShouldHide] = useState(true);
     const screenSize = useWindowSize();
 
     const spaceFromMouse = 5; // a bit of spacing from the click pos
@@ -62,8 +63,13 @@ const DropdownMenuBody = ({ open, xClickPos, yClickPos, activeMenu, children }) 
         dropdownStyle = { position: "fixed", top: yPos, left: xPos + spaceFromMouse };
     }
 
+    if (shouldHide) {
+        dropdownStyle.opacity = 0;
+    }
+    
     useEffect(() => {
         if (!open || xClickPos == null || yClickPos == null || !menuRef.current) {
+            setShouldHide(false);
             return;
         }
 
@@ -112,6 +118,8 @@ const DropdownMenuBody = ({ open, xClickPos, yClickPos, activeMenu, children }) 
             setXPos(xLeft);
             setYPos(yTop);
         }
+
+        setShouldHide(false);
     }, [open, xClickPos, yClickPos, activeMenu, screenSize, menuRef])
 
     if (!open) {
