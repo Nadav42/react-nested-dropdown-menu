@@ -34,37 +34,35 @@ function useScrollAlerter(parent, bindCondition, callback) {
             }
         }
 
-        if (bindCondition) {
-            console.log("bound scroll!")
+        if (parent && bindCondition) {
             parent.addEventListener("scroll", handleParentScroll); // Bind the event listener
         }
 
         return () => {
-            parent.removeEventListener("scroll", handleParentScroll);  // Unbind the event listener on clean up
+            if (parent) {
+                parent.removeEventListener("scroll", handleParentScroll);  // Unbind the event listener on clean up
+            }
         };
     }, [parent, bindCondition, callback]);
 }
 
 // hook
-function useWindowSize() {
-    const [windowSize, setWindowSize] = useState({ width: undefined, height: undefined });
-
+function useResizeAlerter(bindCondition, callback) {
     useEffect(() => {
         function handleResize() {
-            setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+            if (callback) {
+                callback();
+            }
         }
 
         // Add event listener
-        window.addEventListener("resize", handleResize);
-
-        // Call handler right away so state gets updated with initial window size
-        handleResize();
+        if (bindCondition) {
+            window.addEventListener("resize", handleResize);
+        }
 
         // Remove event listener on cleanup
         return () => window.removeEventListener("resize", handleResize);
-    }, []); // Empty array ensures that effect is only run on mount
-
-    return windowSize;
+    }, [bindCondition, callback]); // Empty array ensures that effect is only run on mount
 }
 
 // for inner usage
@@ -73,7 +71,6 @@ const DropdownMenuBody = ({ open, xClickPos, yClickPos, activeMenu, children }) 
     const [xPos, setXPos] = useState(xClickPos);
     const [yPos, setYPos] = useState(yClickPos);
     const [shouldHide, setShouldHide] = useState(true);
-    const screenSize = useWindowSize();
 
     const spaceFromMouse = 5; // a bit of spacing from the click pos
     const baseClass = open ? "dropdown-menu show" : "dropdown-menu";
@@ -140,7 +137,7 @@ const DropdownMenuBody = ({ open, xClickPos, yClickPos, activeMenu, children }) 
         }
 
         setShouldHide(false);
-    }, [open, xClickPos, yClickPos, activeMenu, screenSize, menuRef])
+    }, [open, xClickPos, yClickPos, activeMenu, menuRef])
 
     if (!open) {
         return null;
@@ -282,6 +279,7 @@ export const DropdownMenu = ({ Button, disableFixed, children }) => {
     }
 
     useOutsideAlerter(wrapperRef, closeMenu); // close dropdown if clicked outside
+    useResizeAlerter(isOpen, closeMenu);
     useScrollAlerter(document, isOpen, () => {
         if (!disableFixed) {
             closeMenu();  // close dropdown when scrolling
