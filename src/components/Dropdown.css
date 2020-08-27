@@ -2,6 +2,7 @@
     display: flex;
     justify-content: space-between;
     padding-right: 6px;
+    cursor: pointer;
 }
 
 .dropdown-item-container .dropdown-item-title {
