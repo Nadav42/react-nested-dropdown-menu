@@ -26,6 +26,26 @@ function useOutsideAlerter(ref, callback) {
 }
 
 // hook
+function useScrollAlerter(parent, bindCondition, callback) {
+    useEffect(() => {
+        const handleParentScroll = () => {
+            if (callback) {
+                callback();
+            }
+        }
+
+        if (bindCondition) {
+            console.log("bound scroll!")
+            document.addEventListener("scroll", handleParentScroll); // Bind the event listener
+        }
+
+        return () => {
+            document.removeEventListener("scroll", handleParentScroll);  // Unbind the event listener on clean up
+        };
+    }, [parent, bindCondition, callback]);
+}
+
+// hook
 function useWindowSize() {
     const [windowSize, setWindowSize] = useState({ width: undefined, height: undefined });
 
@@ -66,7 +86,7 @@ const DropdownMenuBody = ({ open, xClickPos, yClickPos, activeMenu, children }) 
     if (shouldHide) {
         dropdownStyle.opacity = 0;
     }
-    
+
     useEffect(() => {
         if (!open || xClickPos == null || yClickPos == null || !menuRef.current) {
             setShouldHide(false);
@@ -262,6 +282,11 @@ export const DropdownMenu = ({ Button, disableFixed, children }) => {
     }
 
     useOutsideAlerter(wrapperRef, closeMenu); // close dropdown if clicked outside
+    useScrollAlerter(document, isOpen, () => {
+        if (!disableFixed) {
+            closeMenu();  // close dropdown when scrolling
+        }
+    });
 
     // inject sub menus with the active menu prop
     const childrenWithProps = React.Children.map(children, child => {
